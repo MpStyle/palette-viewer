@@ -33,6 +33,10 @@
     height: 48px;
 }
 
+.add-color button:hover {
+    background-color: white;
+}
+
 .add-color-left {
     left: 0;
 }

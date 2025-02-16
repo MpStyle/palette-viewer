@@ -61,7 +61,7 @@ function App() {
     const [openSnackbarCopied, setOpenSnackbarCopied] = useState<boolean>(false);
 
     const navigateToPalette = (colors: string[]) => {
-        navigate(`/${colors.map(c=>c.substring(1)).join(colorsSeparator)}`);
+        navigate(`/${colors.map(c=>c.substring(1)).join(colorsSeparator).toLowerCase()}`);
     }
 
     useEffect(() => {
