@@ -68,5 +68,5 @@
 }
 
 .colors-container:hover .add-color button{
-    display: block;
+    /*display: block;*/
 }
