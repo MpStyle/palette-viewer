@@ -21,7 +21,8 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CloseIcon from '@mui/icons-material/Close';
 import {HTML5Backend} from "react-dnd-html5-backend";
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import {DndProvider, useDrag, useDrop} from 'react-dnd';
+import {SketchPicker} from 'react-color';
 
 const colorPalettes = [
     ["#2C3E50", "#BDC3C7", "#8E44AD", "#ECF0F1", "#34495E"], // Elegant
@@ -104,10 +105,10 @@ function App() {
         setColors(newColors);
     };
 
-    const ColorBand = ({ color, index }: { color: string, index: number }) => {
-        const [{ isDragging }, ref] = useDrag({
+    const ColorBand = ({color, index}: { color: string, index: number }) => {
+        const [{isDragging}, ref] = useDrag({
             type: ItemType,
-            item: { index },
+            item: {index},
             collect: (monitor) => ({
                 isDragging: monitor.isDragging(),
             }),
@@ -214,7 +215,7 @@ function App() {
         <DndProvider backend={HTML5Backend}>
             <Stack direction="row" className="colors-container">
                 {colors.map((color, index) =>
-                    <ColorBand key={index} color={color} index={index} />
+                    <ColorBand key={index} color={color} index={index}/>
                 )}
             </Stack>
         </DndProvider>
@@ -238,14 +239,17 @@ function App() {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                {"Enter color name or hex value"}
+                Choose color
             </DialogTitle>
             <DialogContent>
                 <Box sx={{pt: 1}}>
-                    <TextField label={'Color'}
-                               fullWidth
-                               value={newColor}
-                               onChange={e => setNewColor(e.target.value)}/>
+                    <SketchPicker
+                        width={'calc(100% - (24px))'}
+                        color={newColor}
+                        onChange={(e) => {
+                            setNewColor(e.hex);
+                        }}
+                    />
                 </Box>
             </DialogContent>
             <DialogActions>
