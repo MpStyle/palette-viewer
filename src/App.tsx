@@ -122,7 +122,7 @@ function App() {
             },
         });
 
-        const handleMouseMove = (event: MouseEvent) => {
+        const handleMouseMove = (event: React.MouseEvent) => {
             const target = event.currentTarget as HTMLElement;
             const rect = target.getBoundingClientRect();
             const mouseX = event.clientX;
@@ -141,64 +141,67 @@ function App() {
             }
         };
 
-        return (
-            <Stack className="color-band-container"
-                   direction='column'
-                   ref={(node) => ref(drop(node))}
-                   onMouseMove={handleMouseMove}
-                   style={{
-                       backgroundColor: color,
-                       width: `${100 / colors.length}%`,
-                       opacity: isDragging ? 0.5 : 1,
-                   }}>
-                {index === 0 && <Box className='add-color add-color-left'>
-                    <AddNewColorButton position={0}/>
+        return <Stack className="color-band-container"
+                      direction='column'
+                      component="div"
+                      ref={(node) => {
+                          ref(drop(node));
+                      }}
+                      onMouseMove={e => {
+                          handleMouseMove(e);
+                      }}
+                      style={{
+                          backgroundColor: color,
+                          width: `${100 / colors.length}%`,
+                          opacity: isDragging ? 0.5 : 1,
+                      }}>
+            {index === 0 && <Box className='add-color add-color-left'>
+                <AddNewColorButton position={0}/>
+            </Box>}
+            {index !== 0 &&
+                <Box className='add-color'>
+                    <AddNewColorButton position={index}/>
                 </Box>}
-                {index !== 0 &&
-                    <Box className='add-color'>
-                        <AddNewColorButton position={index}/>
-                    </Box>}
 
-                <div style={{flex: 1}}/>
+            <div style={{flex: 1}}/>
 
-                <Stack spacing={1} className="color-actions">
-                    <IconButton sx={{color: getContrastColor(color)}}
-                                aria-label="delete"
-                                title="Delete"
-                                size="medium"
-                                onClick={() => removeColor(index)}>
-                        <ClearIcon fontSize="inherit"/>
-                    </IconButton>
-                    <IconButton sx={{color: getContrastColor(color)}}
-                                aria-label="move"
-                                title="Move"
-                                size="medium">
-                        <DragIndicatorIcon fontSize="inherit"/>
-                    </IconButton>
-                    <IconButton sx={{color: getContrastColor(color)}}
-                                aria-label="copy"
-                                title="Copy"
-                                size="medium"
-                                onClick={() => copyColorName(color)}>
-                        <ContentCopyIcon fontSize="inherit"/>
-                    </IconButton>
-                </Stack>
-
-                <div className="color-name"
-                     style={{color: getContrastColor(color)}}
-                     onClick={() => {
-                         setNewColor(color);
-                         handleNewColorOpen(index)
-                     }}>
-                    {color.startsWith("#") ? color.substring(1) : color}
-                </div>
-
-                {index === colors.length - 1 &&
-                    <Box className='add-color add-color-right'>
-                        <AddNewColorButton position={colors.length}/>
-                    </Box>}
+            <Stack spacing={1} className="color-actions">
+                <IconButton sx={{color: getContrastColor(color)}}
+                            aria-label="delete"
+                            title="Delete"
+                            size="medium"
+                            onClick={() => removeColor(index)}>
+                    <ClearIcon fontSize="inherit"/>
+                </IconButton>
+                <IconButton sx={{color: getContrastColor(color)}}
+                            aria-label="move"
+                            title="Move"
+                            size="medium">
+                    <DragIndicatorIcon fontSize="inherit"/>
+                </IconButton>
+                <IconButton sx={{color: getContrastColor(color)}}
+                            aria-label="copy"
+                            title="Copy"
+                            size="medium"
+                            onClick={() => copyColorName(color)}>
+                    <ContentCopyIcon fontSize="inherit"/>
+                </IconButton>
             </Stack>
-        );
+
+            <div className="color-name"
+                 style={{color: getContrastColor(color)}}
+                 onClick={() => {
+                     setNewColor(color);
+                     handleNewColorOpen(index)
+                 }}>
+                {color.startsWith("#") ? color.substring(1) : color}
+            </div>
+
+            {index === colors.length - 1 &&
+                <Box className='add-color add-color-right'>
+                    <AddNewColorButton position={colors.length}/>
+                </Box>}
+        </Stack>;
     };
 
     return <div className="app">
