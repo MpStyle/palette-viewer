@@ -1,6 +1,6 @@
 # Palette Viewer
 
-Welcome to **Palette Viewer**! 🎨✨
+Welcome to **Palette Viewer**! 🎨✨ [DEMO](https://mpstyle.github.io/palette-viewer/)
 
 ![Palette Viewer](docs/images/screenshot.png)
 
