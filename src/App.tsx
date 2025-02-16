@@ -1,5 +1,5 @@
-import './App.css'
-import {useState} from "react";
+import './App.css';
+import {useEffect, useState} from "react";
 import {
     AppBar,
     Box,
@@ -21,6 +21,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CloseIcon from '@mui/icons-material/Close';
 import {useDrag, useDrop} from 'react-dnd';
 import {SketchPicker} from 'react-color';
+import {useNavigate, useParams} from 'react-router-dom';
 
 const colorPalettes = [
     ["#2C3E50", "#BDC3C7", "#8E44AD", "#ECF0F1", "#34495E"], // Elegant
@@ -41,7 +42,12 @@ const colorPalettes = [
     ["#D90368", "#820263", "#291720", "#04A777", "#F2A007"]  // Neon
 ];
 
+const colorsSeparator = ',';
+
 function App() {
+    const {colorList} = useParams();
+    const colors = colorList ? colorList.split(colorsSeparator).map(c=>`#${c}`) : [];
+    const navigate = useNavigate();
     const ItemType = 'COLOR';
 
     const getRandomPalette = () => {
@@ -49,11 +55,20 @@ function App() {
         return colorPalettes[randomIndex];
     };
 
-    const [colors, setColors] = useState<string[]>(getRandomPalette());
     const [open, setOpen] = useState<boolean>(false);
     const [newColor, setNewColor] = useState<string>('');
     const [newColorPosition, setNewColorPosition] = useState<number>(-1);
     const [openSnackbarCopied, setOpenSnackbarCopied] = useState<boolean>(false);
+
+    const navigateToPalette = (colors: string[]) => {
+        navigate(`/${colors.map(c=>c.substring(1)).join(colorsSeparator)}`);
+    }
+
+    useEffect(() => {
+        if (colors.length === 0) {
+            navigateToPalette(getRandomPalette());
+        }
+    }, []);
 
     const getContrastColor = (color: string) => {
         const hex = color.charAt(0) === '#' ? color.substring(1, 7) : color;
@@ -66,7 +81,7 @@ function App() {
 
     const removeColor = (index: number) => {
         const newColors = colors.filter((_, i) => i !== index);
-        setColors(newColors);
+        navigateToPalette(newColors);
     };
 
     const copyColorName = (color: string) => {
@@ -100,7 +115,7 @@ function App() {
         const newColors = Array.from(colors);
         const [movedColor] = newColors.splice(dragIndex, 1);
         newColors.splice(hoverIndex, 0, movedColor);
-        setColors(newColors);
+        navigateToPalette(newColors);
     };
 
     const ColorBand = ({color, index}: { color: string, index: number }) => {
@@ -256,7 +271,7 @@ function App() {
                 <Button onClick={() => {
                     const newColors = [...colors];
                     newColors.splice(newColorPosition, 0, newColor);
-                    setColors(newColors);
+                    navigateToPalette(newColors);
                     setNewColor('');
                     setNewColorPosition(-1)
                     handleClose();
@@ -268,4 +283,4 @@ function App() {
     </div>
 }
 
-export default App
+export default App;
