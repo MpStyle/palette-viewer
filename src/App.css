@@ -60,6 +60,8 @@
 
 .color-actions button{
     display: none;
+    width: 48px;
+    height: 48px;
 }
 
 .color-band-container:hover .color-actions button{
