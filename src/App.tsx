@@ -11,7 +11,6 @@ import {
     IconButton,
     Snackbar,
     Stack,
-    TextField,
     Toolbar,
     Typography
 } from "@mui/material";
@@ -20,8 +19,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CloseIcon from '@mui/icons-material/Close';
-import {HTML5Backend} from "react-dnd-html5-backend";
-import {DndProvider, useDrag, useDrop} from 'react-dnd';
+import {useDrag, useDrop} from 'react-dnd';
 import {SketchPicker} from 'react-color';
 
 const colorPalettes = [
@@ -212,13 +210,11 @@ function App() {
             </Toolbar>
         </AppBar>
 
-        <DndProvider backend={HTML5Backend}>
-            <Stack direction="row" className="colors-container">
-                {colors.map((color, index) =>
-                    <ColorBand key={index} color={color} index={index}/>
-                )}
-            </Stack>
-        </DndProvider>
+        <Stack direction="row" className="colors-container">
+            {colors.map((color, index) =>
+                <ColorBand key={index} color={color} index={index}/>
+            )}
+        </Stack>
 
         <Snackbar
             open={openSnackbarCopied}
