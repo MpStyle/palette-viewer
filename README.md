@@ -2,6 +2,8 @@
 
 Welcome to **Palette Viewer**! 🎨✨
 
+![Palette Viewer](docs/images/screenshot.png)
+
 ## What is Palette Viewer?
 
 Palette Viewer is your ultimate tool for creating, viewing, and managing color palettes. Whether you're a designer, developer, or just someone who loves playing with colors, this app is for you! With Palette Viewer, you can easily generate random color palettes, customize them, and save your favorite combinations.
